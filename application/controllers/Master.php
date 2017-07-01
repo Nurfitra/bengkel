@@ -124,6 +124,15 @@ class Master extends CI_Controller {
 			$this->load->view('montir_trans', $data);
 			$this->load->view('layout/js2');
 	}
+	public function pembelian()
+	{
+			$data['barang'] = $this->Data_model->get_barang();
+			$this->load->view('layout/head');
+			$this->load->view('layout/nav');
+			$this->load->view('layout/menu');
+			$this->load->view('pembelian', $data);
+			$this->load->view('layout/js2');
+	}
 	public function user()
 	{
 			$crud = new grocery_CRUD();
@@ -173,6 +182,20 @@ class Master extends CI_Controller {
 		$this->db->select('SUM(harga) as harga');
 		$this->db->where('no_pendaftaran', $no_daftar);
 		return $this->db->get('transaksi')->row('harga');
+	}
+	public function pdf($no_daftar)
+	{
+		$this->load->helper(array('dompdf', 'file'));
+		$data['pelanggan'] = $this->Data_model->get_faktur($no_daftar);
+		$data['func'] = $this;
+
+		// page info here, db calls, etc.     
+		$html = $this->load->view('pdf', $data, true);
+		pdf_create($html, $no_daftar);
+		/*or
+		$data = pdf_create($html, '', false);
+		write_file('name', $data);*/
+		//if you want to write it to disk and/or send it as an attachment    
 	}
 }
 

@@ -51,6 +51,7 @@
       </tr>
     </table>
     <button class="btn btn-danger btn-lg">Lunas</button>
+    <button class="btn btn-default btn-lg" onclick="location.href='<?=base_url('master/pdf/'.$pelanggan->row('no_pendaftaran'));?>'">Cetak PDF</button>
   </section>
   <!-- /.content -->
 </div>

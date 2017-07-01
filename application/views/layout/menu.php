@@ -20,6 +20,8 @@
         </li>
         <?php } if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 4){ ?>
         <li class="<?php if($this->uri->segment(1)=="daftarService"){echo "active";} ?>"><a href="<?=base_url('daftarService');?>"><i class="fa fa-book"></i> <span>Daftar Service</span></a></li>
+        <?php } if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 4){ ?>
+        <li class="<?php if($this->uri->segment(1)=="Pembelian"){echo "active";} ?>"><a href="<?=base_url('Pembelian');?>"><i class="fa fa-book"></i> <span>Pembelian</span></a></li>
         <?php } if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 3){ ?>
         <li class="<?php if($this->uri->segment(1)=="dataTransaksi"){echo "active";} ?>"><a href="<?=base_url('dataTransaksi');?>"><i class="fa fa-book"></i> <span>Data Pelanggan</span></a></li>
         <?php } if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 4){ ?>

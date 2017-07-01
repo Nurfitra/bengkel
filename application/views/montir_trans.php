@@ -58,6 +58,7 @@ price = $("#select_id").find(':selected').data("price");
 document.getElementById("max_select").setAttribute("max", qty);
 document.getElementById("harga").textContent = price+jasa;
 }
+simpleCart.empty();
 simpleCart.currency({
 code: "IDR" ,
 name: "Indonesian Rupiah" ,

@@ -11,6 +11,7 @@ $route['dataPengguna'] = 'master/user';
 $route['dataTransaksi'] = 'master/transaksi';
 $route['dashboard'] = 'master/index';
 $route['faktur'] = 'master/data_faktur';
+$route['Pembelian'] = 'master/pembelian';
 $route['cetakFaktur/(:num)'] = 'master/cetak_faktur/$1';
 
 $route['daftarService/(:any)'] = 'master/daftar_service/$1';
