@@ -8,6 +8,10 @@ class Data_model extends CI_Model {
 		$this->db->where('status','1');
 		return $this->db->get('daftar_service');
 	}
+	public function get_jasa()
+	{	
+		return $this->db->get('jasa');
+	}
 	public function get_pelanggan_service()
 	{	
 		$this->db->where('status','2');
@@ -33,10 +37,15 @@ class Data_model extends CI_Model {
 	{
 		return $this->db->insert('transaksi', $data);
 	}
-	public function update_status($no_daftar)
+	public function update_data($nama_barang, $jumlah)
+	{
+		$this->db->where('nama_barang', $nama_barang);
+		return $this->db->update('gudang', array('stok' => '$jumlah'));
+	}
+	public function update_status($no_daftar, $status)
 	{
 		$this->db->where('no_pendaftaran', $no_daftar);
-		return $this->db->update('daftar_service', array('status' => '2'));
+		return $this->db->update('daftar_service', array('status' => $status));
 	}
 	public function get_faktur($no_daftar)
 	{

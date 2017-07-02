@@ -27,19 +27,23 @@
 			<table width="100%" class="outline-table">
 				<tbody>
 					<tr class="border-bottom border-right center grey">
-						<td width="45%"><strong>Barang</strong></td>
-						<td width="25%"><strong>Jumlah</strong></td>
+						<td width="5%"><strong>No.</strong></td>
+						<td width="25%"><strong>Jenis Jasa</strong></td>
+						<td width="30%"><strong>Barang</strong></td>
+						<td width="10%"><strong>Jumlah</strong></td>
 						<td width="30%"><strong>Harga</strong></td>
 					</tr>
-					<?php foreach($pelanggan->result() as $row){ ?>
+					<?php $no=1; foreach($pelanggan->result() as $row){ ?>
 					<tr class="border-bottom border-right center">
+						<td class="pad-left"><?=$no;?></td>
+						<td class="pad-left"><?=$row->jasa;?></td>
 						<td class="pad-left"><?=$row->barang;?></td>
 						<td class="right border-top"><?=$row->jumlah;?></td>
 						<td class="right border-top">Rp. <?=$row->harga;?></td>
 					</tr>
-					<?php } ?>
+					<?php $no++; } ?>
 					<tr class="border-bottom border-right center grey">
-						<th width="65%" colspan="2" style="text-align: center;">
+						<th width="65%" colspan="4" style="text-align: center;">
 							Total
 						</th>
 						<th width="35%">

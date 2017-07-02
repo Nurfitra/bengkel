@@ -27,7 +27,7 @@ class Master extends CI_Controller {
 	{
 			$crud = new grocery_CRUD();
 			$crud->set_table('daftar_service');
-			//$crud->where('status','1');
+			$crud->order_by('status','asc');
 			$crud->columns('no_polisi','nama_pemilik','kendaraan','keluhan','tgl_daftar','status');
 			$crud->required_fields('no_polisi','nama_pemilik','kendaraan','keluhan','tgl_daftar');
 			$crud->fields('no_polisi','nama_pemilik','kendaraan','keluhan','tgl_daftar');
@@ -52,6 +52,7 @@ class Master extends CI_Controller {
 			$crud->set_table('gudang');
 			$crud->set_subject('Data Gudang');
 			$crud->callback_before_insert(array($this,'gudang_id'));
+			$crud->callback_before_insert(array($this,'checkDuplicateBarang'));
 
 			$output = $crud->render();
 			$data = array(
@@ -63,6 +64,22 @@ class Master extends CI_Controller {
 			$this->load->view('layout/menu');
 			$this->load->view('content', $data);
 			$this->load->view('layout/js');
+	}
+	public function checkDuplicateBarang($post_array) {
+
+	    $this->db->where('nama_barang', $post_array['nama_barang']);
+
+	    $query = $this->db->get('gudang');
+
+	    $count_row = $query->num_rows();
+
+	    if ($count_row > 0) {
+	        //return false; // And here False to TRUE
+			echo "<textarea>".json_encode(array('success' => true , 'success_message' => 'This participant already exists'))."</textarea>";
+			$crud->set_echo_and_die();
+	     } else {
+	        return TRUE; // And here False to TRUE
+	     }
 	}
 	public function gudang_id($post_array) {
 		$post_array['kode_gudang'] = $this->session->userdata('kode_gudang');	 
@@ -83,13 +100,19 @@ class Master extends CI_Controller {
 		return $this->db->get('gudang');
 
 	}
+	public function cek_stok($x, $num)
+	{
+		return $this->db->query('Select stok-"'.$num.'" as stok from gudang where nama_barang like "%'.$x.'%"')->row('stok');
+	}
 	public function tambah_transaksi($no_daftar)
 	{
 			$num = $this->input->post('itemCount');
 			for($i=0;$i<=$num;$i++) {
 
 				$nama = $this->input->post('item_name_'.$i);
-				list($jasa, $nama_barang) = explode(",", $nama);
+				list($jasa, $nama_barang) = array_pad(explode(",", $nama, 2), 2, null);
+				$stok = $this->cek_stok($nama, $this->input->post('item_quantity_'.$i));
+				echo $stok."<br>";
 				if(count($nama_barang) <> 0){
 					$data = array(
 						"no_pendaftaran" => $no_daftar,
@@ -102,22 +125,27 @@ class Master extends CI_Controller {
 						"barang" => $nama_barang,
 						"jasa" => $jasa,
 					);
-					$insert = $this->Data_model->insert_data($data);
+
+					//echo $stok;
+					//$total = $cek - $this->input->post('item_quantity_'.$i);
+					/*$this->Data_model->update_data($nama_barang, $total);
+					$insert = $this->Data_model->insert_data($data);*/
 				}
 			}
-			if($insert)
+			/*if($insert)
 			{
-				$this->Data_model->update_status($no_daftar);
+				$this->Data_model->update_status($no_daftar, '2');
 				echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
 				redirect('dataTransaksi');
 			}else{					
 				echo "<script>alert('Gagal menyimpan transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
-			}
+			}*/
 	}
 	public function pelanggan($id_daftar)
 	{
 			$data['pelanggan'] = $this->Data_model->get_pelanggan(rawurldecode($id_daftar));
 			$data['barang'] = $this->Data_model->get_barang();
+			$data['jasa'] = $this->Data_model->get_jasa();
 			$this->load->view('layout/head');
 			$this->load->view('layout/nav');
 			$this->load->view('layout/menu');
@@ -142,6 +170,23 @@ class Master extends CI_Controller {
 			$output = $crud->render();
 			$data = array(
                     'title' => "Data User",
+                    'output' => $output,
+                );
+			$this->load->view('layout/head');
+			$this->load->view('layout/nav');
+			$this->load->view('layout/menu');
+			$this->load->view('content', $data);
+			$this->load->view('layout/js');
+	}
+	public function jasa()
+	{
+			$crud = new grocery_CRUD();
+			$crud->set_table('jasa');
+			$crud->set_subject('Jenis Jasa');
+
+			$output = $crud->render();
+			$data = array(
+                    'title' => "Jenis Jasa",
                     'output' => $output,
                 );
 			$this->load->view('layout/head');
@@ -196,6 +241,18 @@ class Master extends CI_Controller {
 		$data = pdf_create($html, '', false);
 		write_file('name', $data);*/
 		//if you want to write it to disk and/or send it as an attachment    
+	}
+	public function lunas($no_daftar)
+	{
+		$lunas = $this->Data_model->update_status($no_daftar, '0');
+
+		if($lunas){
+			echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("faktur")."';</script>";
+			//redirect('faktur');
+		}else{
+			echo "<script>alert('Gagal memproses transaksi!');window.location.href = '".base_url("cetakFaktur/".$no_daftar)."';</script>";
+			//redirect('cetakFaktur/'.$no_daftar);
+		}
 	}
 }
 

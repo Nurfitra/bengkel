@@ -18,6 +18,7 @@
             <li class="<?php if($this->uri->segment(1)=="dataGudang"){echo "active";} ?>"><a href="<?=base_url('dataGudang');?>">Data Gudang</a></li>
           </ul>
         </li>
+        <li class="<?php if($this->uri->segment(1)=="jenisJasa"){echo "active";} ?>"><a href="<?=base_url('jenisJasa');?>"><i class="fa fa-book"></i> <span>Jenis Jasa</span></a></li>
         <?php } if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 4){ ?>
         <li class="<?php if($this->uri->segment(1)=="daftarService"){echo "active";} ?>"><a href="<?=base_url('daftarService');?>"><i class="fa fa-book"></i> <span>Daftar Service</span></a></li>
         <?php } if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 4){ ?>

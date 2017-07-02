@@ -14,9 +14,9 @@
           <div class="form-group">
             <label for="exampleInputName2">Jenis jasa</label>
             <select class="item_name form-control" onchange="val_select()" id="select_jasa">
-              <option data-value="0" value="Ganti Sparepart" >Ganti Sparepart ( + Rp. 0 )</option>
-              <option data-value="10000" value="Service">Service ( + Rp. 10.000 )</option>
-              <option data-value="2000" value="Pengecekan">Pengecekan ( + Rp. 2.000 )</option>
+              <?php foreach ($jasa->result() as $row) { ?>
+              <option data-value="<?=$row->harga;?>" value="Ganti Sparepart" ><?=$row->nama_jasa;?> ( + Rp. <?=$row->harga;?> )</option>
+              <?php } ?>
             </select>
           </div>
         </div>
@@ -24,6 +24,7 @@
           <div class="form-group">
             <label for="exampleInputName2">Nama Barang</label>
             <select class="item_name form-control" onchange="val_select()" id="select_id">
+              <option value="" data-value="" data-price="0"> Hanya Jasa</option>
               <?php foreach ($barang->result() as $row) { ?>
               <option value="<?=$row->nama_barang;?>" data-value="<?=$row->stok;?>" data-price="<?=$row->harga;?>"><?=$row->nama_barang;?> ( <?=$row->stok;?> Rp. <?=$row->harga;?>/<?=$row->satuan;?> ) | Gudang <?=$row->kode_gudang;?></option>
               <?php } ?>

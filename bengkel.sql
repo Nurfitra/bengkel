@@ -31,7 +31,7 @@ CREATE TABLE `daftar_service` (
   `tgl_daftar` date NOT NULL,
   `status` enum('1','2','0') NOT NULL,
   PRIMARY KEY (`no_pendaftaran`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -60,7 +60,7 @@ CREATE TABLE `gudang` (
   `satuan` enum('pcs','set') NOT NULL,
   `kode_gudang` varchar(5) NOT NULL,
   PRIMARY KEY (`id_barang`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +71,31 @@ LOCK TABLES `gudang` WRITE;
 /*!40000 ALTER TABLE `gudang` DISABLE KEYS */;
 INSERT INTO `gudang` VALUES (4,'123','test',10,2000,'pcs','2'),(5,'456','test2',0,1000,'pcs','2'),(6,'12312312','yuhu',5,500000,'pcs','2');
 /*!40000 ALTER TABLE `gudang` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jasa`
+--
+
+DROP TABLE IF EXISTS `jasa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `jasa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_jasa` varchar(20) NOT NULL,
+  `harga` int(150) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jasa`
+--
+
+LOCK TABLES `jasa` WRITE;
+/*!40000 ALTER TABLE `jasa` DISABLE KEYS */;
+INSERT INTO `jasa` VALUES (1,'Ganti Sparepart',0),(2,'Service',10000),(3,'Pengecekan',5000);
+/*!40000 ALTER TABLE `jasa` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -85,14 +110,14 @@ CREATE TABLE `transaksi` (
   `no_pendaftaran` varchar(25) NOT NULL,
   `tgl_service` date NOT NULL,
   `barang` varchar(30) NOT NULL,
-  `jasa` enum('Service','Ganti Sparepart','Pengecekan') NOT NULL,
+  `jasa` varchar(50) NOT NULL,
   `montir` varchar(20) NOT NULL,
   `jumlah` int(10) NOT NULL,
   `harga` int(10) NOT NULL,
   `storename` varchar(25) NOT NULL,
   `cartid` varchar(10) NOT NULL,
   PRIMARY KEY (`id_transaksi`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +126,7 @@ CREATE TABLE `transaksi` (
 
 LOCK TABLES `transaksi` WRITE;
 /*!40000 ALTER TABLE `transaksi` DISABLE KEYS */;
-INSERT INTO `transaksi` VALUES (9,'1','2017-07-01',' test','Service','Montir',1,12000,'Bengkel','1'),(10,'1','2017-07-01',' yuhu','Pengecekan','Montir',1,502000,'Bengkel','1');
+INSERT INTO `transaksi` VALUES (14,'1','2017-07-02',' test','Ganti Sparepart','Administrator',2,2000,'Bengkel','1'),(15,'2','2017-07-02',' yuhu','Ganti Sparepart','Administrator',1,500000,'Bengkel','2'),(16,'1','2017-07-02',' test','Ganti Sparepart','Administrator',5,2000,'Bengkel','1');
 /*!40000 ALTER TABLE `transaksi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-01 19:42:51
+-- Dump completed on 2017-07-03  0:39:50

@@ -13,6 +13,12 @@
     <table class="table table-striped">
       <tr>
         <th>
+          No.
+        </th>
+        <th>
+          Jenis Jasa
+        </th>
+        <th>
           Barang
         </th>
         <th>
@@ -25,8 +31,14 @@
           Harga
         </th>
       </tr>
-      <?php foreach($pelanggan->result() as $row){ ?>
+      <?php $no=1; foreach($pelanggan->result() as $row){ ?>
       <tr>
+        <td>
+          <?=$no;?>
+        </td>
+        <td>
+          <?=$row->jasa;?>
+        </td>
         <td>
           <?=$row->barang;?>
         </td>
@@ -40,9 +52,9 @@
           Rp. <?=$row->harga;?>
         </td>
       </tr>
-      <?php } ?>
+      <?php $no++; } ?>
       <tr class="success">
-        <th colspan="3" style="text-align: center;">
+        <th colspan="5" style="text-align: center;">
           Total
         </th>
         <th>
@@ -50,7 +62,7 @@
         </th>
       </tr>
     </table>
-    <button class="btn btn-danger btn-lg">Lunas</button>
+    <a class="btn btn-danger btn-lg" onclick="return confirm('Melunasi Transaksi?');" href="<?=base_url('lunas/'.$pelanggan->row('no_pendaftaran'));?>">Lunas</a>
     <button class="btn btn-default btn-lg" onclick="location.href='<?=base_url('master/pdf/'.$pelanggan->row('no_pendaftaran'));?>'">Cetak PDF</button>
   </section>
   <!-- /.content -->

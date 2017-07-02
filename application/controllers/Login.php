@@ -6,6 +6,20 @@ class Login extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Data_model');
+		if($this->session->userdata('role') == 2)
+		{				
+			redirect('dataGudang');
+		}
+		else if($this->session->userdata('role') == 3)
+		{				
+			redirect('dataTransaksi');
+		}
+		else if($this->session->userdata('role') == 4)
+		{				
+			redirect('daftarService');
+		}else if($this->session->userdata('role') == 1){				
+			redirect('dashboard');
+		}
 	}
 
 	public function index()
