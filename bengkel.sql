@@ -40,7 +40,7 @@ CREATE TABLE `daftar_service` (
 
 LOCK TABLES `daftar_service` WRITE;
 /*!40000 ALTER TABLE `daftar_service` DISABLE KEYS */;
-INSERT INTO `daftar_service` VALUES (1,'B 1234 CDE','Bambang','Yamaha Mio','service','2017-06-08','2'),(2,'F 456 GHJ','Samsul','Honda Beat','Ganti Oli','2017-06-16','1');
+INSERT INTO `daftar_service` VALUES (1,'B 1234 CDE','Bambang','Yamaha Mio','service','2017-06-08','1'),(2,'F 456 GHJ','Samsul','Honda Beat','Ganti Oli','2017-06-16','1');
 /*!40000 ALTER TABLE `daftar_service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +60,7 @@ CREATE TABLE `gudang` (
   `satuan` enum('pcs','set') NOT NULL,
   `kode_gudang` varchar(5) NOT NULL,
   PRIMARY KEY (`id_barang`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `gudang` (
 
 LOCK TABLES `gudang` WRITE;
 /*!40000 ALTER TABLE `gudang` DISABLE KEYS */;
-INSERT INTO `gudang` VALUES (4,'123','test',10,2000,'pcs','2'),(5,'456','test2',0,1000,'pcs','2'),(6,'12312312','yuhu',5,500000,'pcs','2');
+INSERT INTO `gudang` VALUES (4,'123','test',10,2000,'pcs','2'),(5,'456','test2',10,1000,'pcs','4'),(6,'12312312','yuhu',5,500000,'pcs','2');
 /*!40000 ALTER TABLE `gudang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `jasa` (
   `nama_jasa` varchar(20) NOT NULL,
   `harga` int(150) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +96,35 @@ LOCK TABLES `jasa` WRITE;
 /*!40000 ALTER TABLE `jasa` DISABLE KEYS */;
 INSERT INTO `jasa` VALUES (1,'Ganti Sparepart',0),(2,'Service',10000),(3,'Pengecekan',5000);
 /*!40000 ALTER TABLE `jasa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pesan_barang`
+--
+
+DROP TABLE IF EXISTS `pesan_barang`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pesan_barang` (
+  `id_pesan` int(11) NOT NULL AUTO_INCREMENT,
+  `gudang` varchar(50) NOT NULL,
+  `nama_barang` varchar(100) NOT NULL,
+  `qty` int(10) NOT NULL,
+  `tgl` date NOT NULL,
+  `pemesan` varchar(30) NOT NULL,
+  `status` enum('menunggu','dikirim','ditolak') NOT NULL,
+  PRIMARY KEY (`id_pesan`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pesan_barang`
+--
+
+LOCK TABLES `pesan_barang` WRITE;
+/*!40000 ALTER TABLE `pesan_barang` DISABLE KEYS */;
+INSERT INTO `pesan_barang` VALUES (4,'2','4',1,'2017-07-06','Administrator','ditolak');
+/*!40000 ALTER TABLE `pesan_barang` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -115,9 +144,8 @@ CREATE TABLE `transaksi` (
   `jumlah` int(10) NOT NULL,
   `harga` int(10) NOT NULL,
   `storename` varchar(25) NOT NULL,
-  `cartid` varchar(10) NOT NULL,
   PRIMARY KEY (`id_transaksi`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +154,7 @@ CREATE TABLE `transaksi` (
 
 LOCK TABLES `transaksi` WRITE;
 /*!40000 ALTER TABLE `transaksi` DISABLE KEYS */;
-INSERT INTO `transaksi` VALUES (14,'1','2017-07-02',' test','Ganti Sparepart','Administrator',2,2000,'Bengkel','1'),(15,'2','2017-07-02',' yuhu','Ganti Sparepart','Administrator',1,500000,'Bengkel','2'),(16,'1','2017-07-02',' test','Ganti Sparepart','Administrator',5,2000,'Bengkel','1');
+INSERT INTO `transaksi` VALUES (65,'2','2017-07-03',' test','Ganti Sparepart','Administrator',2,2000,'Bengkel'),(66,'2','2017-07-03',' yuhu','Ganti Sparepart','Administrator',4,500000,'Bengkel'),(67,'2','2017-07-03',' yuhu','Ganti Sparepart','Administrator',4,2000,'Bengkel'),(68,'2','2017-07-03',' test','Ganti Sparepart','Administrator',4,2000,'Bengkel');
 /*!40000 ALTER TABLE `transaksi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,4 +194,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-03  0:39:50
+-- Dump completed on 2017-07-04  1:35:03

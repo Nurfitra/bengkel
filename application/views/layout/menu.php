@@ -4,8 +4,8 @@
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="<?php if($this->uri->segment(1)==null || $this->uri->segment(1)=="dashboard"){echo "active";} ?>"><a href="<?=base_url('dashboard');?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <?php if($this->session->userdata('role') == 1){ ?>
-        <li class="treeview <?php if($this->uri->segment(1)=="dataPengguna" || $this->uri->segment(1)=="dataGudang"){echo "active";} ?>">
+        <?php if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 2){ ?>
+        <li class="treeview <?php if($this->uri->segment(1)=="dataPengguna" || $this->uri->segment(1)=="dataGudang" || $this->uri->segment(1)=="pesanBarang" || $this->uri->segment(1)=="jenisJasa"){echo "active";} ?>">
           <a href="#">
             <i class="fa fa-desktop"></i>
             <span>Master</span>
@@ -14,11 +14,16 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            <?php if($this->session->userdata('role') == 1){ ?>
             <li class="<?php if($this->uri->segment(1)=="dataPengguna"){echo "active";} ?>"><a href="<?=base_url('dataPengguna');?>">Pengguna</a></li>
+            <?php } ?>
             <li class="<?php if($this->uri->segment(1)=="dataGudang"){echo "active";} ?>"><a href="<?=base_url('dataGudang');?>">Data Gudang</a></li>
+            <li class="<?php if($this->uri->segment(1)=="pesanBarang"){echo "active";} ?>"><a href="<?=base_url('pesanBarang');?>">Pesan Barang</a></li>
+            <?php if($this->session->userdata('role') == 1){ ?>
+            <li class="<?php if($this->uri->segment(1)=="jenisJasa"){echo "active";} ?>"><a href="<?=base_url('jenisJasa');?>">Jenis Jasa</a></li>
+            <?php } ?>
           </ul>
         </li>
-        <li class="<?php if($this->uri->segment(1)=="jenisJasa"){echo "active";} ?>"><a href="<?=base_url('jenisJasa');?>"><i class="fa fa-book"></i> <span>Jenis Jasa</span></a></li>
         <?php } if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 4){ ?>
         <li class="<?php if($this->uri->segment(1)=="daftarService"){echo "active";} ?>"><a href="<?=base_url('daftarService');?>"><i class="fa fa-book"></i> <span>Daftar Service</span></a></li>
         <?php } if($this->session->userdata('role') == 1 || $this->session->userdata('role') == 4){ ?>

@@ -51,8 +51,12 @@ class Master extends CI_Controller {
 			//$crud->set_theme('flexigrid');
 			$crud->set_table('gudang');
 			$crud->set_subject('Data Gudang');
+			$crud->where('kode_gudang', $this->session->userdata('id_user'));
 			$crud->callback_before_insert(array($this,'gudang_id'));
 			$crud->callback_before_insert(array($this,'checkDuplicateBarang'));
+			$crud->callback_add_field('kode_gudang', function () {
+			return '<input type="text" maxlength="50" value="'.$this->session->userdata('id_user').'" name="kode_gudang" readonly>'; 
+			});
 
 			$output = $crud->render();
 			$data = array(
@@ -100,9 +104,10 @@ class Master extends CI_Controller {
 		return $this->db->get('gudang');
 
 	}
-	public function cek_stok($x, $num)
+	public function cek_stok($nama_barang)
 	{
-		return $this->db->query('Select stok-"'.$num.'" as stok from gudang where nama_barang like "%'.$x.'%"')->row('stok');
+		$this->db->like('nama_barang', $nama_barang);
+		return $this->db->get('gudang')->row('stok');
 	}
 	public function tambah_transaksi($no_daftar)
 	{
@@ -111,35 +116,31 @@ class Master extends CI_Controller {
 
 				$nama = $this->input->post('item_name_'.$i);
 				list($jasa, $nama_barang) = array_pad(explode(",", $nama, 2), 2, null);
-				$stok = $this->cek_stok($nama, $this->input->post('item_quantity_'.$i));
-				echo $stok."<br>";
 				if(count($nama_barang) <> 0){
 					$data = array(
 						"no_pendaftaran" => $no_daftar,
 						"tgl_service" => date('Y-m-d'),
 						"montir" => $this->session->userdata('nama'),
 						"storename" => $this->input->post('storename'),
-						"cartid" => $this->input->post('cartid'),
 						"jumlah" => $this->input->post('item_quantity_'.$i),
 						"harga" => $this->input->post('item_price_'.$i),
 						"barang" => $nama_barang,
 						"jasa" => $jasa,
 					);
-
+					$this->Data_model->update_data($nama, $this->input->post('item_quantity_'.$i));
 					//echo $stok;
 					//$total = $cek - $this->input->post('item_quantity_'.$i);
-					/*$this->Data_model->update_data($nama_barang, $total);
-					$insert = $this->Data_model->insert_data($data);*/
+					$insert = $this->Data_model->insert_data($data);
 				}
 			}
-			/*if($insert)
+			if($insert)
 			{
 				$this->Data_model->update_status($no_daftar, '2');
-				echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
-				redirect('dataTransaksi');
+				//echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
+				//redirect('dataTransaksi');
 			}else{					
 				echo "<script>alert('Gagal menyimpan transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
-			}*/
+			}
 	}
 	public function pelanggan($id_daftar)
 	{
@@ -252,6 +253,50 @@ class Master extends CI_Controller {
 		}else{
 			echo "<script>alert('Gagal memproses transaksi!');window.location.href = '".base_url("cetakFaktur/".$no_daftar)."';</script>";
 			//redirect('cetakFaktur/'.$no_daftar);
+		}
+	}
+	public function pesan_barang()
+	{
+			$data['pesanan'] = $this->Data_model->get_pesanan($this->session->userdata('nama'));
+			$data['pesanan_masuk'] = $this->Data_model->pesanan_masuk($this->session->userdata('id_user'));
+
+			$this->load->view('layout/head');
+			$this->load->view('layout/nav');
+			$this->load->view('layout/menu');
+			$this->load->view('pesan_barang', $data);
+			$this->load->view('layout/js2');
+	}
+	public function pemesanan_barang()
+	{
+			$crud = new grocery_CRUD();
+			$crud->set_table('pesan_barang');
+			$crud->set_subject('Pesan Barang');
+			$crud->set_relation('nama_barang','gudang','nama_barang');
+			$crud->fields('gudang','nama_barang','qty','tgl','pemesan');
+			$crud->set_relation('gudang','user','username', array('role' => '2'));
+			$crud->callback_add_field('pemesan', function () {
+			return '<input type="text" maxlength="50" value="'.$this->session->userdata('nama').'" name="pemesan" readonly>'; 
+			});
+			$output = $crud->render();
+			$data = array(
+                    'title' => "<button class='btn btn-default btn-xs' onclick='location.href=\"".base_url('pesanBarang')."\"'><<</button> Pesan Barang",
+                    'output' => $output,
+                );
+			$this->load->view('layout/head');
+			$this->load->view('layout/nav');
+			$this->load->view('layout/menu');
+			$this->load->view('content', $data);
+			$this->load->view('layout/js');
+	}
+	public function pemesanan_status($id)
+	{
+		$status = $this->input->get('aksi');
+		$update = $this->Data_model->pemesanan_status($id, $status);
+		if($update)
+		{
+			echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("pesanBarang")."';</script>";
+		}else{
+			echo "<script>alert('Gagal memproses transaksi!');window.location.href = '".base_url("pesanBarang")."';</script>";
 		}
 	}
 }

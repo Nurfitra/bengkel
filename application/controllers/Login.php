@@ -6,6 +6,11 @@ class Login extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Data_model');
+		
+	}
+
+	public function index()
+	{	
 		if($this->session->userdata('role') == 2)
 		{				
 			redirect('dataGudang');
@@ -19,12 +24,9 @@ class Login extends CI_Controller {
 			redirect('daftarService');
 		}else if($this->session->userdata('role') == 1){				
 			redirect('dashboard');
+		}else{
+			$this->load->view('login');
 		}
-	}
-
-	public function index()
-	{	
-		$this->load->view('login');
 	}
 	public function cek_login()
 	{
@@ -35,6 +37,7 @@ class Login extends CI_Controller {
 		{
 			$this->session->set_userdata('nama', $cek_login->row('nama'));
 			$this->session->set_userdata('role', $cek_login->row('role'));
+			$this->session->set_userdata('id_user', $cek_login->row('id_user'));
 			if($cek_login->row('role') == 2)
 			{				
 				redirect('dataGudang');
@@ -55,7 +58,7 @@ class Login extends CI_Controller {
 	}
 	public function logout()
 	{
-		$this->session->sess_destroy();
+	    $this->session->sess_destroy();
 		redirect('login');	
 	}
 

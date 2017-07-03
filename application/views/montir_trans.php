@@ -86,7 +86,6 @@ url: "<?=base_url('tambahTransaksi/'.$pelanggan->row('no_pendaftaran'));?>",
 method: "POST" ,
 extra_data: {
 storename: "Bengkel",
-cartid: "<?=$pelanggan->row('no_pendaftaran');?>"
 }
 }
 });
