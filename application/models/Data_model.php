@@ -21,6 +21,7 @@ class Data_model extends CI_Model {
 	{
 		$this->db->group_by('no_pendaftaran');
 		$this->db->where('no_pendaftaran >', 100);
+		$this->db->where('jasa', NULL);
 		return $this->db->get('transaksi');
 	}
 	public function get_nopembeli($no_pendaftaran)
@@ -78,6 +79,11 @@ class Data_model extends CI_Model {
 	{
 		$this->db->where('id_pesan', $id);
 		return $this->db->update('pesan_barang', array('status' => $status));
+	}
+	public function trans_status($no_daftar, $status)
+	{
+		$this->db->where('no_pendaftaran', $no_daftar);
+		return $this->db->update('transaksi', array('jasa' => $status));
 	}
 	public function get_faktur($no_daftar)
 	{

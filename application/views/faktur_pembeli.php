@@ -56,7 +56,7 @@
         </th>
       </tr>
     </table>
-    <a class="btn btn-danger btn-lg" onclick="return confirm('Melunasi Transaksi?');" href="<?=base_url('lunas/'.$pelanggan->row('no_pendaftaran'));?>">Lunas</a>
+    <a class="btn btn-danger btn-lg" onclick="return confirm('Melunasi Transaksi?');" href="<?=base_url('master/lunas_p/'.$pelanggan->row('no_pendaftaran'));?>">Lunas</a>
     <button class="btn btn-default btn-lg" onclick="location.href='<?=base_url('master/pdf/'.$pelanggan->row('no_pendaftaran'));?>'">Cetak PDF</button>
   </section>
   <!-- /.content -->

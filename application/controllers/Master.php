@@ -355,6 +355,19 @@ class Master extends CI_Controller {
 		$this->db->where('id_user',$id);
 		return $this->db->get('user');
 	}
+
+	public function lunas_p($no_daftar)
+	{
+		$lunas = $this->Data_model->trans_status($no_daftar, '1');
+
+		if($lunas){
+			echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("faktur")."';</script>";
+			//redirect('faktur');
+		}else{
+			echo "<script>alert('Gagal memproses transaksi!');window.location.href = '".base_url("cetakFaktur/".$no_daftar)."';</script>";
+			//redirect('cetakFaktur/'.$no_daftar);
+		}
+	}
 }
 
 /* End of file Master.php */
