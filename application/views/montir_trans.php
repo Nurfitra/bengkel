@@ -25,7 +25,7 @@
           <div class="form-group">
             <label for="exampleInputName2">Nama Barang</label>
             <select class="item_name form-control" onchange="val_select()" id="select_id">
-              <option value="" data-value="" data-price="0"> Hanya Jasa</option>
+              <option value="0 , Hanya Jasa" data-value="" data-price="0"> Hanya Jasa</option>
               <?php foreach ($barang->result() as $row) { ?>
               <option value="<?=$row->id_barang;?>, <?=$row->nama_barang;?>" data-value="<?=$row->stok;?>" data-id="<?=$row->id_barang;?>" data-price="<?=$row->harga;?>"><?=$row->nama_barang;?> ( <?=$row->stok;?> Rp. <?=$row->harga;?>/<?=$row->satuan;?> ) | Gudang <?=$row->kode_gudang;?></option>
               <?php } ?>
@@ -86,7 +86,7 @@ cartStyle : "table",
 checkout: {
 type: "SendForm" ,
 url: "<?=base_url('tambahTransaksi/'.$pelanggan->row('no_pendaftaran'));?>",
-method: "POST" ,
+method: "POST   " ,
 extra_data: {
 storename: "Bengkel",
 id: "Bengkel",
