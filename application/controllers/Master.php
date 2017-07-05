@@ -135,8 +135,8 @@ class Master extends CI_Controller {
 			}
 			if($insert)
 			{
-				$this->Data_model->update_status($no_daftar, '2');
-				//echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
+				//$this->Data_model->update_status($no_daftar, '2');
+				echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
 				//redirect('dataTransaksi');
 			}else{					
 				echo "<script>alert('Gagal menyimpan transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
@@ -161,6 +161,39 @@ class Master extends CI_Controller {
 			$this->load->view('layout/menu');
 			$this->load->view('pembelian', $data);
 			$this->load->view('layout/js2');
+	}
+	public function tambah_pembelian()
+	{
+			$num = $this->input->post('itemCount');
+			$rand = rand(100, 1000);
+			for($i=0;$i<=$num;$i++) {
+				$nama = $this->input->post('item_name_'.$i);
+				list($jasa, $nama_barang) = array_pad(explode(",", $nama, 2), 2, null);
+				if(count($nama_barang) <> 0){
+					$data = array(
+						"no_pendaftaran" => $rand,
+						"tgl_service" => date('Y-m-d'),
+						"montir" => $this->session->userdata('nama'),
+						"storename" => $this->input->post('storename'),
+						"jumlah" => $this->input->post('item_quantity_'.$i),
+						"harga" => $this->input->post('item_price_'.$i),
+						"barang" => $nama_barang,
+						"jasa" => null,
+					);
+					$this->Data_model->update_data($nama, $this->input->post('item_quantity_'.$i));
+					//echo $stok;
+					//$total = $cek - $this->input->post('item_quantity_'.$i);
+					$insert = $this->Data_model->insert_data($data);
+				}
+			}
+			if($insert)
+			{
+				//$this->Data_model->update_status($no_daftar, '2');
+				echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("cetakFakturPembeli/".$rand)."';</script>";
+				//redirect('dataTransaksi');
+			}else{					
+				echo "<script>alert('Gagal menyimpan transaksi!');window.location.href = '".base_url("Pembelian")."';</script>";
+			}
 	}
 	public function user()
 	{
@@ -199,6 +232,7 @@ class Master extends CI_Controller {
 	public function data_faktur()
 	{
 			$data['pelanggan'] = $this->Data_model->get_pelanggan_service();
+			$data['pembeli'] = $this->Data_model->get_pembeli();
 			$data['func'] = $this;
 
 			$this->load->view('layout/head');
@@ -216,6 +250,17 @@ class Master extends CI_Controller {
 			$this->load->view('layout/nav');
 			$this->load->view('layout/menu');
 			$this->load->view('faktur', $data);
+			$this->load->view('layout/js2');
+	}
+	public function cetak_faktur_pembeli($no_daftar)
+	{
+			$data['pelanggan'] = $this->Data_model->get_faktur_pembeli($no_daftar);
+			$data['func'] = $this;
+
+			$this->load->view('layout/head');
+			$this->load->view('layout/nav');
+			$this->load->view('layout/menu');
+			$this->load->view('faktur_pembeli', $data);
 			$this->load->view('layout/js2');
 	}
 	public function get_transaksi($no_daftar)

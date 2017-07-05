@@ -14,9 +14,11 @@ $route['faktur'] = 'master/data_faktur';
 $route['pesanBarang'] = 'master/pesan_barang';
 $route['pemesananBarang'] = 'master/pemesanan_barang';
 $route['Pembelian'] = 'master/pembelian';
+$route['tambahPembelian'] = 'master/tambah_pembelian';
 $route['jenisJasa'] = 'master/jasa';
 $route['lunas/(:num)'] = 'master/lunas/$1';
 $route['cetakFaktur/(:num)'] = 'master/cetak_faktur/$1';
+$route['cetakFakturPembeli/(:num)'] = 'master/cetak_faktur_pembeli/$1';
 
 $route['daftarService/(:any)'] = 'master/daftar_service/$1';
 $route['dataGudang/(:any)'] = 'master/gudang/$1';
@@ -26,6 +28,7 @@ $route['pemesananBarang/(:any)'] = 'master/pemesanan_barang/$1';
 $route['pelanggan/(:any)'] = 'master/pelanggan/$1';
 $route['jenisJasa/(:any)'] = 'master/jasa/$1';
 $route['pesanBarang/(:any)'] = 'master/pesan_barang/$1';
+$route['tambahPembelian/(:any)'] = 'master/tambah_pembelian/$1';
 
 $route['daftarService/(:any)/(:num)'] = 'master/daftar_service/$1/$2';
 $route['dataGudang/(:any)/(:num)'] = 'master/gudang/$1/$2';

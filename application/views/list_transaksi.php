@@ -23,6 +23,18 @@
       </div>
     </div>
   <?php } ?>
+  <?php foreach($pembeli->result() as $row){ ?>
+    <div class="info-box bg-green" style="cursor:pointer" onclick="location.href='<?=base_url('cetakFakturPembeli/'.rawurlencode($row->no_pendaftaran));?>'">
+      <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-number">Pembelian <?php $no=0; foreach($func->get_transaksi($row->no_pendaftaran)->result() as $row){ echo $row->barang; if($func->get_transaksi($row->no_pendaftaran)->num_rows() > 1){ echo", "; } $no++; } ?> </span>
+        <span class="progress-description">
+          Tanggal Pembelian : <?=$func->get_transaksi($row->no_pendaftaran)->row('tgl_service');?><br/>
+          Total Rp. <?=$func->get_total_transaksi($row->no_pendaftaran);?>
+        </span>
+      </div>
+    </div>
+  <?php } ?>
   </section>
   <!-- /.content -->
 </div>

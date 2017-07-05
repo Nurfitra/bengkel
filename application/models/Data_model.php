@@ -17,6 +17,17 @@ class Data_model extends CI_Model {
 		$this->db->where('status','2');
 		return $this->db->get('daftar_service');
 	}
+	public function get_pembeli()
+	{
+		$this->db->group_by('no_pendaftaran');
+		$this->db->where('no_pendaftaran >', 100);
+		return $this->db->get('transaksi');
+	}
+	public function get_nopembeli($no_pendaftaran)
+	{
+		$this->db->where('no_pendaftaran >', $no_pendaftaran);
+		return $this->db->get('transaksi');
+	}
 	public function get_pelanggan($value='')
 	{
 		$this->db->where('no_polisi', $value);
@@ -62,6 +73,11 @@ class Data_model extends CI_Model {
 	{
 		$this->db->where('daftar_service.no_pendaftaran', $no_daftar);
 		$this->db->join('daftar_service','transaksi.no_pendaftaran = daftar_service.no_pendaftaran');
+		return $this->db->get('transaksi');
+	}
+	public function get_faktur_pembeli($no_daftar)
+	{
+		$this->db->where('no_pendaftaran', $no_daftar);
 		return $this->db->get('transaksi');
 	}
 	public function get_pesanan($value='')

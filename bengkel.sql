@@ -139,13 +139,13 @@ CREATE TABLE `transaksi` (
   `no_pendaftaran` varchar(25) NOT NULL,
   `tgl_service` date NOT NULL,
   `barang` varchar(30) NOT NULL,
-  `jasa` varchar(50) NOT NULL,
+  `jasa` varchar(50) DEFAULT NULL,
   `montir` varchar(20) NOT NULL,
   `jumlah` int(10) NOT NULL,
   `harga` int(10) NOT NULL,
   `storename` varchar(25) NOT NULL,
   PRIMARY KEY (`id_transaksi`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +154,6 @@ CREATE TABLE `transaksi` (
 
 LOCK TABLES `transaksi` WRITE;
 /*!40000 ALTER TABLE `transaksi` DISABLE KEYS */;
-INSERT INTO `transaksi` VALUES (65,'2','2017-07-03',' test','Ganti Sparepart','Administrator',2,2000,'Bengkel'),(66,'2','2017-07-03',' yuhu','Ganti Sparepart','Administrator',4,500000,'Bengkel'),(67,'2','2017-07-03',' yuhu','Ganti Sparepart','Administrator',4,2000,'Bengkel'),(68,'2','2017-07-03',' test','Ganti Sparepart','Administrator',4,2000,'Bengkel');
 /*!40000 ALTER TABLE `transaksi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-04  1:35:03
+-- Dump completed on 2017-07-05 23:36:55

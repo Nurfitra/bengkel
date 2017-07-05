@@ -16,16 +16,13 @@
           No.
         </th>
         <th>
-          Jenis Jasa
-        </th>
-        <th>
           Barang
         </th>
         <th>
           Jumlah
         </th>
         <th>
-          Tgl Service
+          Tgl Pembelian
         </th>
         <th>
           Harga
@@ -37,16 +34,13 @@
           <?=$no;?>
         </td>
         <td>
-          <?=$row->jasa;?>
-        </td>
-        <td>
           <?=$row->barang;?>
         </td>
         <td>
           <?=$row->jumlah;?>
         </td>
         <td>
-          <?=$row->tgl_service;?>
+        <?=$row->tgl_service;?>
         </td>
         <td>
           Rp. <?=$row->harga;?>
@@ -54,7 +48,7 @@
       </tr>
       <?php $no++; } ?>
       <tr class="success">
-        <th colspan="5" style="text-align: center;">
+        <th colspan="4" style="text-align: center;">
           Total
         </th>
         <th>
