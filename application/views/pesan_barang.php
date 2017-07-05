@@ -38,7 +38,7 @@
               Jumlah
             </th>
             <th>
-              ID Tujuan
+              Tujuan
             </th>
             <th>
               Status
@@ -59,7 +59,7 @@
               <?=$row->qty;?>
             </td>
             <td>
-              <?=$row->gudang;?>
+              <?=$func->get_iduser($row->gudang)->row('nama');?>
             </td>
             <td>
               <?=ucfirst($row->status);?>
@@ -101,6 +101,9 @@
             <th>
               Pemesan
             </th>
+            <th>
+              Status
+            </th>
             <th colspan="2" style="text-align: center">
               Action
             </th>
@@ -121,6 +124,9 @@
             </td>
             <td>
               <?=$row->pemesan;?>
+            </td>
+            <td>
+              <?=$row->status;?>
             </td>
             <td style="text-align: center">
               <a href="<?=base_url('master/pemesanan_status/'.$row->id_pesan.'/?aksi=dikirim');?>">Terima</a>

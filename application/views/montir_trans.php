@@ -11,6 +11,7 @@
     <div class="row">
       <div class="simpleCart_shelfItem">
         <div class="col-md-4">
+        <span class="item_id" id="id_barang" hidden></span>
           <div class="form-group">
             <label for="exampleInputName2">Jenis jasa</label>
             <select class="item_name form-control" onchange="val_select()" id="select_jasa">
@@ -26,7 +27,7 @@
             <select class="item_name form-control" onchange="val_select()" id="select_id">
               <option value="" data-value="" data-price="0"> Hanya Jasa</option>
               <?php foreach ($barang->result() as $row) { ?>
-              <option value="<?=$row->nama_barang;?>" data-value="<?=$row->stok;?>" data-price="<?=$row->harga;?>"><?=$row->nama_barang;?> ( <?=$row->stok;?> Rp. <?=$row->harga;?>/<?=$row->satuan;?> ) | Gudang <?=$row->kode_gudang;?></option>
+              <option value="<?=$row->id_barang;?>, <?=$row->nama_barang;?>" data-value="<?=$row->stok;?>" data-id="<?=$row->id_barang;?>" data-price="<?=$row->harga;?>"><?=$row->nama_barang;?> ( <?=$row->stok;?> Rp. <?=$row->harga;?>/<?=$row->satuan;?> ) | Gudang <?=$row->kode_gudang;?></option>
               <?php } ?>
             </select>
           </div>
@@ -39,7 +40,7 @@
         </div>
         <div class="col-md-2">
           <span class="item_price" hidden id="harga"><?=$barang->row('harga');?></span><br/>
-          <a class="btn btn-primary btn-lg item_add" href="javascript:;"> Tambah </a>
+          <a class="btn btn-primary btn-lg item_add" href="javascript:;" id="item-03"> Tambah </a>
         </div>
       </div>
     </div><br/>
@@ -55,8 +56,10 @@
 function val_select() {
 jasa = $("#select_jasa").find(':selected').data("value");
 qty = $("#select_id").find(':selected').data("value");
+id = $("#select_id").find(':selected').data("id");
 price = $("#select_id").find(':selected').data("price");
 document.getElementById("max_select").setAttribute("max", qty);
+document.getElementById("id_barang").textContent = id;
 document.getElementById("harga").textContent = price+jasa;
 }
 simpleCart.empty();
@@ -86,6 +89,7 @@ url: "<?=base_url('tambahTransaksi/'.$pelanggan->row('no_pendaftaran'));?>",
 method: "POST" ,
 extra_data: {
 storename: "Bengkel",
+id: "Bengkel",
 }
 }
 });

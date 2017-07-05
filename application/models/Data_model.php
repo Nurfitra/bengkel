@@ -43,6 +43,11 @@ class Data_model extends CI_Model {
 		$this->db->where('stok >', '0');
 		return $this->db->get('gudang');		
 	}
+	public function get_namabarang($value='')
+	{
+		$this->db->where('id_barang', $value);
+		return $this->db->get('gudang');		
+	}
 	public function cek_user($u, $p)
 	{
 		$this->db->where('username', $u);
@@ -63,6 +68,11 @@ class Data_model extends CI_Model {
 	{
 		$this->db->where('no_pendaftaran', $no_daftar);
 		return $this->db->update('daftar_service', array('status' => $status));
+	}
+	public function update_stok($nama, $stok)
+	{
+		$this->db->where('id_barang', $nama);
+		return $this->db->update('gudang', array('stok' => $stok));
 	}
 	public function pemesanan_status($id, $status)
 	{
