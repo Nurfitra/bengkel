@@ -11,6 +11,7 @@
     <div class="row">
       <div class="simpleCart_shelfItem">
         <div class="col-md-4">
+        <span class="item_id" id="id_barang" hidden></span>
           <div class="form-group">
             <label for="exampleInputName2">Jenis jasa</label>
             <input type="text" value="Pembelian" class="item_name form-control" id="select_jasa" oninput="val_select()" readonly data-value="0">
@@ -21,7 +22,7 @@
             <label for="exampleInputName2">Nama Barang</label>
             <select class="item_name form-control" onchange="val_select()" id="select_id">
               <?php foreach ($barang->result() as $row) { ?>
-              <option value="<?=$row->nama_barang;?>" data-value="<?=$row->stok;?>" data-price="<?=$row->harga;?>"><?=$row->nama_barang;?> ( <?=$row->stok;?> Rp. <?=$row->harga;?>/<?=$row->satuan;?> ) | Gudang <?=$row->kode_gudang;?></option>
+              <option value="<?=$row->id_barang;?>, <?=$row->nama_barang;?>" data-value="<?=$row->stok;?>" data-price="<?=$row->harga;?>"><?=$row->nama_barang;?> ( <?=$row->stok;?> Rp. <?=$row->harga;?>/<?=$row->satuan;?> ) | Gudang <?=$row->kode_gudang;?></option>
               <?php } ?>
             </select>
           </div>
@@ -50,8 +51,10 @@
 function val_select() {
 //jasa = $("#select_jasa").find(':selected').data("value");
 qty = $("#select_id").find(':selected').data("value");
+id = $("#select_id").find(':selected').data("id");
 price = $("#select_id").find(':selected').data("price");
 document.getElementById("max_select").setAttribute("max", qty);
+document.getElementById("id_barang").textContent = id;
 document.getElementById("harga").textContent = price;
 }
 simpleCart.empty();
