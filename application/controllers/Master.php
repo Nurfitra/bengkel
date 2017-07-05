@@ -5,7 +5,7 @@ class Master extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
+		$ci =& get_instance();
 		$this->load->database();
 		$this->load->helper('url');
 		$this->load->model('Data_model');
@@ -115,7 +115,7 @@ class Master extends CI_Controller {
 			for($i=0;$i<=$num;$i++) {
 
 				$nama = $this->input->post('item_name_'.$i);
-				list($jasa, $nama_barang) = array_pad(explode(",", $nama, 2), 2, null);
+				list($jasa, $kode, $nama_barang) = array_pad(explode(",", $nama, 3), 3, null);
 				if(count($nama_barang) <> 0){
 					$data = array(
 						"no_pendaftaran" => $no_daftar,
@@ -127,20 +127,27 @@ class Master extends CI_Controller {
 						"barang" => $nama_barang,
 						"jasa" => $jasa,
 					);
-					$this->Data_model->update_data($nama, $this->input->post('item_quantity_'.$i));
+					
 					//echo $stok;
-					//$total = $cek - $this->input->post('item_quantity_'.$i);
+					$this->update_stok($kode, $this->input->post('item_quantity_'.$i));
 					$insert = $this->Data_model->insert_data($data);
 				}
 			}
 			if($insert)
 			{
-				//$this->Data_model->update_status($no_daftar, '2');
+				$this->Data_model->update_status($no_daftar, '2');
 				echo "<script>alert('Berhasil memproses transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
 				//redirect('dataTransaksi');
 			}else{					
 				echo "<script>alert('Gagal menyimpan transaksi!');window.location.href = '".base_url("dataTransaksi")."';</script>";
 			}
+	}
+	public function update_stok($id_barang, $jml)
+	{
+		$cek_barang = $this->Data_model->get_namabarang($id_barang);
+		$stok = $cek_barang->row('stok');
+		$newstok = $stok-$jml;
+		$this->Data_model->update_stok($id_barang, $newstok);
 	}
 	public function pelanggan($id_daftar)
 	{
@@ -168,7 +175,7 @@ class Master extends CI_Controller {
 			$rand = rand(100, 1000);
 			for($i=0;$i<=$num;$i++) {
 				$nama = $this->input->post('item_name_'.$i);
-				list($jasa, $nama_barang) = array_pad(explode(",", $nama, 2), 2, null);
+				list($jasa, $kode, $nama_barang) = array_pad(explode(",", $nama, 3), 3, null);
 				if(count($nama_barang) <> 0){
 					$data = array(
 						"no_pendaftaran" => $rand,
@@ -180,9 +187,7 @@ class Master extends CI_Controller {
 						"barang" => $nama_barang,
 						"jasa" => null,
 					);
-					$this->Data_model->update_data($nama, $this->input->post('item_quantity_'.$i));
-					//echo $stok;
-					//$total = $cek - $this->input->post('item_quantity_'.$i);
+					$this->update_stok($kode, $this->input->post('item_quantity_'.$i));
 					$insert = $this->Data_model->insert_data($data);
 				}
 			}
@@ -304,6 +309,7 @@ class Master extends CI_Controller {
 	{
 			$data['pesanan'] = $this->Data_model->get_pesanan($this->session->userdata('nama'));
 			$data['pesanan_masuk'] = $this->Data_model->pesanan_masuk($this->session->userdata('id_user'));
+			$data['func'] = $this;
 
 			$this->load->view('layout/head');
 			$this->load->view('layout/nav');
@@ -343,6 +349,11 @@ class Master extends CI_Controller {
 		}else{
 			echo "<script>alert('Gagal memproses transaksi!');window.location.href = '".base_url("pesanBarang")."';</script>";
 		}
+	}
+	public function get_iduser($id)
+	{	
+		$this->db->where('id_user',$id);
+		return $this->db->get('user');
 	}
 }
 
